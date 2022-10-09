@@ -1,0 +1,78 @@
+# sales_order_data copied from github link and stored as sales_order_data.csv file in local laptop
+# 1. Using FileZilla - sales_order_data.csv file copied from laptop to Local file system in VM
+
+# 2. Coping raw_data from local file system to HDFS location
+     hadoop fs -copyFromLocal /home/cloudera/hive_class_2/sales_order_data.csv /hive_class
+     
+# 3. Creation of internal hive table "sales_order_csv" which will store csv data sales_order_csv  and  to skip header row while creating table
+      CREATE TABLE sales_order_csv
+      (
+      order_number int,
+      qty_ordered int,
+      price_each int,
+      order_line_number int,
+      sales int,
+      status STRING,
+      qtr_id int,
+      month_id int,
+      year_id int,
+      product_line STRING,
+      msrp int,
+      product_code STRING,
+      phone string,
+      city STRING,
+      state string,
+      postal_code STRING,
+      country STRING,
+      territory STRING,
+      contact_lname STRING,
+      contact_fname STRING,
+      dealsize STRING
+      )
+      ROW FORMAT DELIMITED
+      FIELDS TERMINATED BY ','
+      TBLPROPERTIES("skip.header.line.count"="1");
+      
+# 4. Loading data from hdfs path into "sales_order_csv" 
+     load data inpath '/user/cloudera/hive_class/sales_order_data.csv' into table sales_order_csv
+     
+# 5. Creation of internal hive table which will store data in ORC format "sales_order_orc"   
+      CREATE TABLE sales_order_orc
+      (
+      order_number int,
+      qty_ordered int,
+      price_each int,
+      order_line_number int,
+      sales int,
+      status STRING,
+      qtr_id int,
+      month_id int,
+      year_id int,
+      product_line STRING,
+      msrp int,
+      product_code STRING,
+      phone string,
+      city STRING,
+      state string,
+      postal_code STRING,
+      country STRING,
+      territory STRING,
+      contact_lname STRING,
+      contact_fname STRING,
+      dealsize STRING
+      )
+      STORED AS ORC;
+      
+# 6. Loading data from "sales_order_csv" into "sales_order_orc" 
+      from sales_order_csv insert overwrite table sales_order_orc select * ;
+     
+
+  
+ 
+
+
+
+
+
+
+
