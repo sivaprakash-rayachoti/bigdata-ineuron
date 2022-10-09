@@ -1,10 +1,14 @@
-# sales_order_data copied from github link and stored as sales_order_data.csv file in local laptop
+
+# sales_order_data copied from github link and stored as sales_order_data.csv file in local laptop.
+
 # 1. Using FileZilla - sales_order_data.csv file copied from laptop to Local file system in VM
 
-# 2. Coping raw_data from local file system to HDFS location
+# 2. Coping raw_data from local file system to HDFS location.
      hadoop fs -copyFromLocal /home/cloudera/hive_class_2/sales_order_data.csv /hive_class
      
-# 3. Creation of internal hive table "sales_order_csv" which will store csv data sales_order_csv  and  to skip header row while creating table
+# 3. Creation of internal hive table "sales_order_csv" which will store csv data sales_order_csv  and  
+     to skip header row while creating table.
+      
       CREATE TABLE sales_order_csv
       (
       order_number int,
@@ -37,6 +41,7 @@
      load data inpath '/user/cloudera/hive_class/sales_order_data.csv' into table sales_order_csv
      
 # 5. Creation of internal hive table which will store data in ORC format "sales_order_orc"   
+
       CREATE TABLE sales_order_orc
       (
       order_number int,
@@ -68,69 +73,66 @@
       
 
 # PERFORMING BELOW QUERIES ON "sales_order_orc" table
-a. Calculatye total sales per year
-select sum(sales) total_sales_per_year, year_id
-from sales_order_orc
-group by year_id
 
-b. Find a product for which maximum orders were placed
-select sum(qty_ordered) as no_of_orders, product_line from sales_order_orc
-group by product_line
-order by no_of_orders desc
-limit 1;
+a. Calculate total sales per year.
 
-c. Calculate the total sales for each quarter
-select year_id, qtr_id, sum(sales) as toal_sales from sales_order_orc
-group by year_id,qtr_id
+      select sum(sales) total_sales_per_year, year_id
+      from sales_order_orc
+      group by year_id;
 
-d. In which quarter sales was minimum
-select year_id, qtr_id, sum(sales) as total_sales from sales_order_orc
-group by year_id,qtr_id
-order by total_sales
-limit 1
+b. Find a product for which maximum orders were placed.
 
-e. In which country sales was maximum and in which country sales was minimum
-select country,
-sum(sales) as sales
-from sales_order_orc
-group by country
-order by sales desc
-limit 1
+      select sum(qty_ordered) as no_of_orders, product_line from sales_order_orc
+      group by product_line
+      order by no_of_orders desc
+      limit 1;
 
-select country,
-sum(sales) as sales
-from sales_order_orc
-group by country
-order by sales asc
-limit 1
+c. Calculate the total sales for each quarter.
 
-f. Calculate quartelry sales for each city
-select city,year_id,qtr_id,
-sum(sales) as sales
-from sales_order_orc
-group by city,year_id,qtr_id
+      select year_id, qtr_id, sum(sales) as toal_sales from sales_order_orc
+      group by year_id,qtr_id;
 
-h. Find a month for each year in which maximum number of quantities were sold
-with cte1 AS (
-select year_id,
-month_id,
-SUM(qty_ordered) as orders
-from sales_order_orc
-group by year_id, month_id)
+d. In which quarter sales was minimum.
 
-select * from ( select year_id, month_id,orders,row_number() OVER
-(partition by year_id order by orders desc) as rownum
-from cte1
-order by rownum ) temptable
-where rownum = 1
-     
+      select year_id, qtr_id, sum(sales) as total_sales from sales_order_orc
+      group by year_id,qtr_id
+      order by total_sales
+      limit 1;
 
-  
- 
+e. In which country sales was maximum and in which country sales was minimum.
 
+      select country,
+      sum(sales) as sales
+      from sales_order_orc
+      group by country
+      order by sales desc
+      limit 1;
 
+      select country,
+      sum(sales) as sales
+      from sales_order_orc
+      group by country
+      order by sales asc
+      limit 1;
 
+f. Calculate quartelry sales for each city.
 
+      select city,year_id,qtr_id,
+      sum(sales) as sales
+      from sales_order_orc
+      group by city,year_id,qtr_id;
 
+h. Find a month for each year in which maximum number of quantities were sold.
 
+      with cte1 AS (
+      select year_id,
+      month_id,
+      SUM(qty_ordered) as orders
+      from sales_order_orc
+      group by year_id, month_id)
 
+      select * from ( select year_id, month_id,orders,row_number() OVER
+      (partition by year_id order by orders desc) as rownum
+      from cte1
+      order by rownum ) temptable
+      where rownum = 1;
