@@ -65,6 +65,9 @@ load data inpath '/user/cloudera/hive_class/mini_proj_1/agentlogingreport/AgentL
         SELECT distinct agent_name  FROM agent_performance where avg_rating  > 4.5
         
 11. How many feedback agents have received more than 4.5 average
+        SELECT agent_name ,count(total_feedback) as no_of_feedback   FROM agent_performance 
+        group by agent_name, avg_rating having avg_rating > 4.5
+
 12. average weekly response time for each agent 
 13. average weekly resolution time for each agents 
 14. Find the number of chat on which they have received a feedback 
