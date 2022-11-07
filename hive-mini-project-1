@@ -23,7 +23,7 @@ create external table agent_loging_report
 (
 Sno int,
 agent_name string,
-Date string,
+Date date,
 login_time string,
 logout_time string,
 duration string
@@ -85,5 +85,9 @@ load data inpath '/user/cloudera/hive_class/mini_proj_1/agentlogingreport/AgentL
         group by agent_name
 
 15. Total contribution hour for each and every agents weekly basis 
+        select s.agent_name, sum(col1[0]+(col1[1]/60)+(col1[2]/3600)),s.weekly 
+        from (select agent_name , split(duration ,':') as col1 , weekofyear(Date) as weekly from agent_loging_report)s
+        group by s.agent_name, s.weekly
+
 16. Perform inner join, left join and right join based on the agent column and after joining the table export that data into your local system.
 17. Perform partitioning on top of the agent column and then on top of that perform bucketing for each partitioning.
