@@ -69,8 +69,21 @@ load data inpath '/user/cloudera/hive_class/mini_proj_1/agentlogingreport/AgentL
         group by agent_name, avg_rating having avg_rating > 4.5
 
 12. average weekly response time for each agent 
+        select agent_name, avg(col1[0]*60+col1[1]+col1[2]/60) as agent_avg_response_time
+        from ( select agent_name ,split(avg_response_time,':') as col1 from agent_performance )abc
+        group by agent_name
+        order by  agent_avg_response_time DESC
+        
 13. average weekly resolution time for each agents 
+         select agent_name, avg(col1[0]*60+col1[1]+col1[2]/60) as agent_avg_resolution_time_in_minitues 
+        from ( select agent_name ,split(avg_resolution_time,':') as col1 from agent_performance )abc 
+        group by agent_name 
+        order by agent_avg_resolution_time_in_minitues DESC 
+
 14. Find the number of chat on which they have received a feedback 
+        select agent_name, sum(total_chats) as no_of_chats from (select * from agent_performance where total_feedback > 0)abc
+        group by agent_name
+
 15. Total contribution hour for each and every agents weekly basis 
 16. Perform inner join, left join and right join based on the agent column and after joining the table export that data into your local system.
 17. Perform partitioning on top of the agent column and then on top of that perform bucketing for each partitioning.
