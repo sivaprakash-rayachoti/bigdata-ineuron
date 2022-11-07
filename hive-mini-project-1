@@ -56,8 +56,14 @@ load data inpath '/user/cloudera/hive_class/mini_proj_1/agentlogingreport/AgentL
         SELECT agent_name, sum(total_feedback) as total_feedbacks_received FROM agent_performance group by agent_name
         
 8. Agent name who have average rating between 3.5 to 4 
+        SELECT distinct agent_name  FROM agent_performance where avg_rating  BETWEEN 3.5 and 4
+        
 9. Agent name who have rating less than 3.5 
+        SELECT distinct agent_name  FROM agent_performance where avg_rating  < 3.5
+
 10. Agent name who have rating more than 4.5 
+        SELECT distinct agent_name  FROM agent_performance where avg_rating  > 4.5
+        
 11. How many feedback agents have received more than 4.5 average
 12. average weekly response time for each agent 
 13. average weekly resolution time for each agents 
