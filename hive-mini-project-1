@@ -2,7 +2,7 @@
 
 1. Create a schema based on the given dataset
 
-create external table agentperformance
+create external table agent_performance
 (
 Sno int,
 Date string,
@@ -17,7 +17,7 @@ row format delimited
 fields terminated by ","
 tblproperties ("skip.header.line.count"="1")
 
-load data inpath '/user/cloudera/hive_class/mini_proj_1/agentperformance/AgentPerformance.csv' into table agentperformance
+load data inpath '/user/cloudera/hive_class/mini_proj_1/agentperformance/AgentPerformance.csv' into table agent_performance
 
 create external table agent_loging_report
 (
@@ -32,12 +32,7 @@ row format delimited
 fields terminated by ","
 tblproperties ("skip.header.line.count"="1")
 
-
-load data inpath '/user/cloudera/hive_class/mini_proj_1/agentlogingreport/AgentLogingReport.csv' into table agentperformance
-
-
-
-
+load data inpath '/user/cloudera/hive_class/mini_proj_1/agentlogingreport/AgentLogingReport.csv' into table agent_loging_report
 
         
 
