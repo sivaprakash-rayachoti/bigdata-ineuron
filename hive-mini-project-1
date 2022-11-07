@@ -41,10 +41,20 @@ load data inpath '/user/cloudera/hive_class/mini_proj_1/agentlogingreport/AgentL
 
 
 3. List of all agents' names. 
+        SELECT DISTINCT agent_name FROM agent_performance ;
+               
 4. Find out agent average rating.
+        SELECT agent_name, avg(avg_rating) as agent_avg_rating FROM agent_performance group by agent_name
+        
 5. Total working days for each agents 
+        SELECT agent_name, count(date) as total_working_days FROM agent_performance group by agent_name
+                
 6. Total query that each agent have taken 
+        SELECT agent_name, sum(total_chats) as total_queries_taken FROM agent_performance group by agent_name        
+        
 7. Total Feedback that each agent have received 
+        SELECT agent_name, sum(total_feedback) as total_feedbacks_received FROM agent_performance group by agent_name
+        
 8. Agent name who have average rating between 3.5 to 4 
 9. Agent name who have rating less than 3.5 
 10. Agent name who have rating more than 4.5 
