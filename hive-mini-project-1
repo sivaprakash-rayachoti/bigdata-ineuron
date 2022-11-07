@@ -37,8 +37,8 @@ load data inpath '/user/cloudera/hive_class/mini_proj_1/agentlogingreport/AgentL
         
 
 2. Dump the data inside the hdfs in the given schema location.
-
-
+        $ hadoop fs -copyFromLocal /tmp/AgentPerformance.csv hive_class/mini_proj_1/agentperformance
+        $ hadoop fs -copyFromLocal /tmp/AgentLogingReport.csv hive_class/mini_proj_1/agentlogingreport
 
 3. List of all agents' names. 
         SELECT DISTINCT agent_name FROM agent_performance ;
