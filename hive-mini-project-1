@@ -90,4 +90,28 @@ load data inpath '/user/cloudera/hive_class/mini_proj_1/agentlogingreport/AgentL
         group by s.agent_name, s.weekly
 
 16. Perform inner join, left join and right join based on the agent column and after joining the table export that data into your local system.
+        INNER JOIN
+        select alr.agent_name, ap.total_chats,ap.total_feedback
+        from agent_performance ap inner join agent_loging_report alr
+        on ap.agent_name = alr.agent_name
+        
+        LEFT JOIN
+        select alr.agent_name, ap.total_chats,ap.total_feedback
+        from agent_performance ap left join agent_loging_report alr
+        on ap.agent_name = alr.agent_name
+        
+        RIGHT JOIN
+        select alr.agent_name, ap.total_chats,ap.total_feedback
+        from agent_performance ap right join agent_loging_report alr
+        on ap.agent_name = alr.agent_name
+        
+        
+        
+        
+        
+        
+
+
+
+
 17. Perform partitioning on top of the agent column and then on top of that perform bucketing for each partitioning.
