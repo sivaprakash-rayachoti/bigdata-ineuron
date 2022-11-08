@@ -1,5 +1,4 @@
 
-
 1. Create a schema based on the given dataset
 
 create external table agent_performance
@@ -121,3 +120,40 @@ load data inpath '/user/cloudera/hive_class/mini_proj_1/agentlogingreport/AgentL
           
 
 17. Perform partitioning on top of the agent column and then on top of that perform bucketing for each partitioning.
+
+        CREATE TABLE alr_partition_bucket (
+        sno int,
+        Date date,
+        login_time string,
+        logout_time string,
+        duration string)
+        partitioned by (agent_name string)
+        clustered by (Date) sorted by (Date) INTO 4 BUCKETS
+        row format delimited
+        fields terminated by ','
+
+        set hive.exec.dynamic.partition=true
+        set hive.exec.dynamic.partition.mode=true
+
+        INSERT into table alr_partition_bucket PARTITION(agent_name) 
+        select sno,Date,login_time,logout_time,duration,agent_name from agent_loging_report
+ 
+        CREATE TABLE ap_partition_bucket (
+        Sno int,
+        Date string,
+        total_chats int,
+        avg_response_time string,
+        avg_resolution_time string,
+        avg_rating float,
+        total_feedback int
+        )
+        partitioned by (agent_name string)
+        clustered by (Date) sorted by (Date) INTO 10 BUCKETS
+        row format delimited
+        fields terminated by ','
+
+        INSERT into table ap_partition_bucket PARTITION(agent_name) 
+        select sno,Date,total_chats,avg_response_time,avg_resolution_time,avg_rating,total_feedback,agent_name from agent_performance
+ 
+
+
