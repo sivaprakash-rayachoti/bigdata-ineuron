@@ -14,46 +14,46 @@ Create table parking_tickets
 summons_number int,
 plate_id string,
 reg_state string,
-plate_type
-issue_date
-voilation_code
-vehicle_body_type
-vehicle_make
-issuing_agency
-street_code1
-street_code2
-street_code3
-vehicle_expiration_date
-voilation_location
-voilation_precinct
-issuer_precinct
-issuer_code
-issuer_command
-issuer_squad
-voilation_time
-time_first_observed
-voilation_county
-voilation_in_front_of_or_opposite
-House_Number,
-Street_Name,
-Intersecting_Street
-Date_First_Observed,
-Law_Section,
-Sub_Division,
-Violation_Legal_Code,
-Days_Parking_In_Effect    ,
-From_Hours_In_Effect,
-To_Hours_In_Effect,
-Vehicle_Color,
-Unregistered_Vehicle?,
-Vehicle_Year,
-Meter_Number,
-Feet_From_Curb,
-Violation_Post_Code,
-Violation_Description,
-No_Standing_or_Stopping Violation,
-Hydrant_Violation,
-Double_Parking_Violation
+plate_type string,
+issue_date string,
+voilation_code int,
+vehicle_body_type string,
+vehicle_make string,
+issuing_agency string,
+street_code1 int,
+street_code2 int,
+street_code3 int,
+vehicle_expiration_date string,
+voilation_location int,
+voilation_precinct int,
+issuer_precinct int,
+issuer_code int,
+issuer_command string,
+issuer_squad string,
+voilation_time string,
+time_first_observed string,
+voilation_county string,
+voilation_in_front_of_or_opposite string,
+House_Number string,
+Street_Name string,
+Intersecting_Street string,
+Date_First_Observed string,
+Law_Section int,
+Sub_Division string,
+Violation_Legal_Code string,,
+Days_Parking_In_Effect string,
+From_Hours_In_Effect string,
+To_Hours_In_Effect string,
+Vehicle_Color string,
+Unregistered_Vehicle boolean,
+Vehicle_Year string,
+Meter_Number string,
+Feet_From_Curb int,
+Violation_Post_Code string,
+Violation_Description string,
+No_Standing_or_Stopping Violation string,
+Hydrant_Violation string,
+Double_Parking_Violation string
 )
 
 
