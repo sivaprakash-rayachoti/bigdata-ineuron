@@ -40,7 +40,7 @@ Intersecting_Street string,
 Date_First_Observed string,
 Law_Section int,
 Sub_Division string,
-Violation_Legal_Code string,,
+Violation_Legal_Code string,
 Days_Parking_In_Effect string,
 From_Hours_In_Effect string,
 To_Hours_In_Effect string,
@@ -51,11 +51,15 @@ Meter_Number string,
 Feet_From_Curb int,
 Violation_Post_Code string,
 Violation_Description string,
-No_Standing_or_Stopping Violation string,
+No_Standing_or_Stopping_Violation string,
 Hydrant_Violation string,
 Double_Parking_Violation string
 )
+row format delimited
+fields terminated by ','
+stored as textfile
 
+load data inpath '/user/cloudera/hive_class/parking_violations.csv' into table parking_tickets
 
 
 
