@@ -68,8 +68,17 @@ The analysis can be divided into two parts:
 Part-I: Examine the data
 
 1.) Find the total number of tickets for the year.
+    SELECT count(distinct summons_number) FROM parking_tickets1
+
 2.) Find out how many unique states the cars which got parking tickets came from.
+    SELECT distinct reg_state FROM parking_tickets1 ORDER BY reg_state
+
+    
+
 3.) Some parking tickets don’t have addresses on them, which is cause for concern. Find out how many such tickets there are(i.e. tickets where either "Street Code 1" or "Street Code 2" or "Street Code 3" is empty )
+    SELECT count(distinct summons_number) FROM parking_tickets1
+    where street_code1 IS NOT NULL AND street_code2 IS NOT NULL AND street_code3 IS NOT NULL
+
 
 Part-II: Aggregation tasks
 
