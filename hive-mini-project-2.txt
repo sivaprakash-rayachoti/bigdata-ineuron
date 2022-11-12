@@ -106,3 +106,4 @@ Part-II: Aggregation tasks
       b.)Then, find the 3 most common violations for each of these seasons.
 
 Note: Please ensure you make necessary optimizations to your queries like selecting the appropriate table format, using partitioned/bucketed tables. Marks will be awarded for keeping the performance also in mind.
+ 
