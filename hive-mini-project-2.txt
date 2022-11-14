@@ -88,11 +88,14 @@ Part-II: Aggregation tasks
     order by minutes_per_ticket limit 5
  
 2.) How often does each vehicle body type get a parking ticket? How about the vehicle make? (find the top 5 for both)
+    
     select a.vehicle_make,violation_description, ((24*60*365) / a.no_of_voilations) as minutes_per_ticket
     from (select vehicle_make, count(DISTINCT summons_number) as no_of_voilations,violation_description FROM parking_tickets1 
     group by vehicle_make,violation_description)a
-    where regexp_extract(a.violation_description,'Parking',0)
-    order by minutes_per_ticket limit 5  ### needs to check
+    where violation_description LIKE '%PKG%' OR violation_description LIKE '%Parking%'
+    order by minutes_per_ticket DESC limit 5  
+    
+    
 
 3.) A precinct is a police station that has a certain zone of the city under its command. Find the (5 highest) frequencies of:
       a.) Violating Precincts (this is the precinct of the zone where the violation occurred)
