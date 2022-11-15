@@ -68,39 +68,39 @@ The analysis can be divided into two parts:
 Part-I: Examine the data
 
 1.) Find the total number of tickets for the year.
-    SELECT count(distinct summons_number) FROM parking_tickets1
+                 SELECT count(distinct summons_number) FROM parking_tickets1
 
 2.) Find out how many unique states the cars which got parking tickets came from.
-    SELECT distinct reg_state FROM parking_tickets1 ORDER BY reg_state
+                 SELECT distinct reg_state FROM parking_tickets1 ORDER BY reg_state
 
     
 
 3.) Some parking tickets don’t have addresses on them, which is cause for concern. Find out how many such tickets there are(i.e. tickets where either "Street Code 1" or "Street Code 2" or "Street Code 3" is empty )
-    SELECT count(distinct summons_number) FROM parking_tickets1
-    where street_code1 IS NOT NULL AND street_code2 IS NOT NULL AND street_code3 IS NOT NULL
+                 SELECT count(distinct summons_number) FROM parking_tickets1
+                 where street_code1 IS NOT NULL AND street_code2 IS NOT NULL AND street_code3 IS NOT NULL
 
 
 Part-II: Aggregation tasks
 
 1.) How often does each violation code occur? (frequency of violation codes - find the top 5)
-    select a.voilation_code , a.no_of_voilations , ((24*60*365) / a.no_of_voilations) as minutes_per_ticket
-    from (select voilation_code, count(DISTINCT summons_number) as no_of_voilations FROM parking_tickets1 group by voilation_code)a
-    order by minutes_per_ticket limit 5
+                 select a.voilation_code , a.no_of_voilations , ((24*60*365) / a.no_of_voilations) as minutes_per_ticket
+                 from (select voilation_code, count(DISTINCT summons_number) as no_of_voilations FROM parking_tickets1 group by voilation_code)a
+                 order by minutes_per_ticket limit 5
  
 2.) How often does each vehicle body type get a parking ticket? How about the vehicle make? (find the top 5 for both)
     
-    select a.vehicle_make,violation_description, ((24*60*365) / a.no_of_voilations) as minutes_per_ticket
-    from (select vehicle_make, count(DISTINCT summons_number) as no_of_voilations,violation_description FROM parking_tickets1 
-    group by vehicle_make,violation_description)a
-    where violation_description LIKE '%PKG%' OR violation_description LIKE '%Parking%'
-    order by minutes_per_ticket DESC limit 5  
-    
-    select a.vehicle_body_type,violation_description, ((24*60*365) / a.no_of_voilations) as minutes_per_ticket
-    from (select vehicle_body_type, count(DISTINCT summons_number) as no_of_voilations,violation_description FROM parking_tickets1 
-    group by vehicle_body_type,violation_description)a
-    where violation_description LIKE '%PKG%' OR violation_description LIKE '%Parking%'
-    order by minutes_per_ticket
-    limit 5
+                 select a.vehicle_make,violation_description, ((24*60*365) / a.no_of_voilations) as minutes_per_ticket
+                 from (select vehicle_make, count(DISTINCT summons_number) as no_of_voilations,violation_description FROM parking_tickets1 
+                 group by vehicle_make,violation_description)a
+                 where violation_description LIKE '%PKG%' OR violation_description LIKE '%Parking%'
+                 order by minutes_per_ticket DESC limit 5  
+
+                 select a.vehicle_body_type,violation_description, ((24*60*365) / a.no_of_voilations) as minutes_per_ticket
+                 from (select vehicle_body_type, count(DISTINCT summons_number) as no_of_voilations,violation_description FROM parking_tickets1 
+                 group by vehicle_body_type,violation_description)a
+                 where violation_description LIKE '%PKG%' OR violation_description LIKE '%Parking%'
+                 order by minutes_per_ticket
+                 limit 5
         
 
 3.) A precinct is a police station that has a certain zone of the city under its command. Find the (5 highest) frequencies of:
@@ -121,11 +121,11 @@ Part-II: Aggregation tasks
       
       
 4.) Find the violation code frequency across 3 precincts which have issued the most number of tickets - do these precinct zones have an exceptionally high frequency of certain violation codes? 
-  select issuer_precinct,voilation_code,count(DISTINCT summons_number) as no_of_voilations 
-FROM parking_tickets1 
-group by issuer_precinct,voilation_code
-order by no_of_voilations DESC
-limit 3
+               select issuer_precinct,voilation_code,count(DISTINCT summons_number) as no_of_voilations 
+               FROM parking_tickets1 
+               group by issuer_precinct,voilation_code
+               order by no_of_voilations DESC
+               limit 3
 
 
 
