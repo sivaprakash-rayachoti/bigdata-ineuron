@@ -125,7 +125,13 @@ Part-II: Aggregation tasks
                FROM parking_tickets1 
                group by issuer_precinct,voilation_code
                order by no_of_voilations DESC
-               limit 3
+               limit 3 ## Check
+
+select a.issuer_precinct,a.no_of_voilations, row_number() over (partition by a.issuer_precinct order by a.no_of_voilations) as rank_of_precint   
+from (select issuer_precinct,count(DISTINCT summons_number) as no_of_voilations
+FROM parking_tickets1
+group by issuer_precinct)a  ## Check
+
 
 
 
