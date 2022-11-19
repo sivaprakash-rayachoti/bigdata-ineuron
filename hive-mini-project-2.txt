@@ -219,8 +219,9 @@ select from_unixtime(unix_timestamp(concat(voilation_time,'M'), 'HHmmaaa'),"HH:m
 
 7.) Now, try another direction. For the 3 most commonly occurring violation codes, find the most common times of day (in terms of the bins from the previous part)
 
-      select Violation_Time_bin, count(*) frequency_times from vw_parking_violations_partitoned_2017 where Violation_Code in (21, 38,36) 
-      group by Violation_Time_bin order by frequency_times desc limit 3
+      select voilation_time_bin, count(distinct summons_number) as no_of_voilations from vw_parking_tickets1 where voilation_code in (21, 38,36) 
+      group by voilation_time_bin order by no_of_voilations desc limit 3
+
 
 
 
