@@ -121,19 +121,22 @@ Part-II: Aggregation tasks
       
       
 4.) Find the violation code frequency across 3 precincts which have issued the most number of tickets - do these precinct zones have an exceptionally high frequency of certain violation codes? 
-               select issuer_precinct,voilation_code,count(DISTINCT summons_number) as no_of_voilations 
+               
+               ### find out top 3 precincts which issued most tickets
+               select issuer_precinct,count(DISTINCT summons_number) as no_of_voilations 
                FROM parking_tickets1 
-               group by issuer_precinct,voilation_code
+               where summons_number is not null 
+               group by issuer_precinct
                order by no_of_voilations DESC
-               limit 3 ## Check
-
-select a.issuer_precinct,a.no_of_voilations, row_number() over (partition by a.issuer_precinct order by a.no_of_voilations) as rank_of_precint   
-from (select issuer_precinct,count(DISTINCT summons_number) as no_of_voilations
-FROM parking_tickets1
-group by issuer_precinct)a  ## Check
-
-
-
+               limit 5
+               ## ignoring 0 and 1 from result and  considering 18,19 and 14 are the top precinct
+               
+               select a.issuer_precinct,a.voilation_code, ((24*60*365) / a.no_of_voilations) as minutes_per_ticket
+               from (select issuer_precinct,voilation_code, count(DISTINCT summons_number) as no_of_voilations FROM parking_tickets1 
+               where issuer_precinct in (18,19,14)
+               group by issuer_precinct, voilation_code)a          
+                       
+               
 
 5.) Find out the properties of parking violations across different times of the day: The Violation Time field is specified in a strange format. Find a way to make this into a time attribute that you can use to divide into groups.
 6.) Divide 24 hours into 6 equal discrete bins of time. The intervals you choose are at your discretion. For each of these groups, find the 3 most commonly occurring violations
