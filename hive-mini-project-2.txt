@@ -154,6 +154,38 @@ select from_unixtime(unix_timestamp(concat(voilation_time,'M'), 'HHmmaaa'),"HH:m
 
 
 6.) Divide 24 hours into 6 equal discrete bins of time. The intervals you choose are at your discretion. For each of these groups, find the 3 most commonly occurring violations
+
+create view vw_parking_tickets1
+partitioned on (voilation_code) as
+select summons_number,issuer_precinct,voilation_time,
+CASE 
+WHEN substring(voilation_time,1,2) in ('00','01','02','03','12') and upper(substring(voilation_time,-1))='A' then 1
+WHEN substring(voilation_time,1,2) in ('04','05','06','07') and upper(substring(voilation_time,-1))='A' then 2
+WHEN substring(voilation_time,1,2) in ('08','09','10','11') and upper(substring(voilation_time,-1))='A' then 3
+WHEN substring(voilation_time,1,2) in ('12','01','02','03') and upper(substring(voilation_time,-1))='P' then 4
+WHEN substring(voilation_time,1,2) in ('04','05','06','07') and upper(substring(voilation_time,-1))='P' then 5
+WHEN substring(voilation_time,1,2) in ('08','09','10','11') and upper(substring(voilation_time,-1))='P' then 6
+else null
+END as voilation_time_bin,
+voilation_code
+from parking_tickets1
+where voilation_time is not NULL
+
+
+## Finding out top 3 voilations in time_bin = 1
+select voilation_code , count(distinct summons_number) as no_of_voilations
+from vw_parking_tickets1
+where voilation_time_bin = '1'
+group by voilation_code
+order by no_of_voilations DESC limit 3
+
+
+
+
+
+
+
+
 7.) Now, try another direction. For the 3 most commonly occurring violation codes, find the most common times of day (in terms of the bins from the previous part)
 8.) Let’s try and find some seasonality in this data
       a.) First, divide the year into some number of seasons, and find frequencies of tickets for each season. (Hint: A quick Google search reveals the following seasons in NYC: Spring(March, April, March); Summer(June, July, August); Fall(September, October, November); Winter(December, January, February))
