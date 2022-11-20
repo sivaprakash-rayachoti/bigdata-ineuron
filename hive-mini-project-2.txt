@@ -9,7 +9,7 @@ Download Dataset - https://data.cityofnewyork.us/browse?q=parking+tickets
 Note: Consider only the year 2017 for analysis and not the Fiscal year.
 
 
-Create table parking_tickets
+Create table parking_tickets_csv
 (
 summons_number int,
 plate_id string,
@@ -55,11 +55,18 @@ No_Standing_or_Stopping_Violation string,
 Hydrant_Violation string,
 Double_Parking_Violation string
 )
+partitioned by (voilation_county string)
+CLUSTERED BY (voilation_code) sorted by (voilation_code) INTO 8 BUCKETS
 row format delimited
 fields terminated by ','
-stored as textfile
+tblproperties('skip.header.line.count'='1')
 
 load data inpath '/user/cloudera/hive_class/parking_violations.csv' into table parking_tickets
+
+## properties to be set for dynamic partition
+set hive.exec.dynamic.partition=true;
+set hive.exec.dynamic.partition.mode=nonstrict; 
+set hive.enforce.bucketing = true;
 
 The analysis can be divided into two parts:
  
