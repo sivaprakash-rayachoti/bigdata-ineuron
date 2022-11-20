@@ -234,11 +234,39 @@ select from_unixtime(unix_timestamp(concat(voilation_time,'M'), 'HHmmaaa'),"HH:m
          from 
          (select issuer_precinct,split(Issue_Date,'/') as col1,voilation_code 
              from parking_tickets1 )abc
+             
+             
+         select voilation_code,count(*) as frequecny from vw_tickets_issued_seasons1
+         where season = 'spring'
+         group by voilation_code
+         order by frequecny DESC limit 3
+         
+         select voilation_code,count(*) as frequecny from vw_tickets_issued_seasons1
+         where season = 'summer'
+         group by voilation_code
+         order by frequecny DESC limit 3
 
-      
+         select voilation_code,count(*) as frequecny from vw_tickets_issued_seasons1
+         where season = 'autmn'
+         group by voilation_code
+         order by frequecny DESC limit 3
+         
+         select voilation_code,count(*) as frequecny from vw_tickets_issued_seasons1
+         where season = 'winter'
+         group by voilation_code
+         order by frequecny DESC limit 3      
       
       
       b.)Then, find the 3 most common violations for each of these seasons.
+      
+         select voilation_code,count(*) as frequecny from vw_tickets_issued_seasons1
+         where season = 'summer'
+         group by voilation_code
+         order by frequecny DESC limit 3
+      
+      
+      
+      
 
 Note: Please ensure you make necessary optimizations to your queries like selecting the appropriate table format, using partitioned/bucketed tables. Marks will be awarded for keeping the performance also in mind.
  
