@@ -61,8 +61,6 @@ stored as textfile
 
 load data inpath '/user/cloudera/hive_class/parking_violations.csv' into table parking_tickets
 
-
-
 The analysis can be divided into two parts:
  
 Part-I: Examine the data
@@ -147,12 +145,6 @@ select from_unixtime(unix_timestamp(concat(voilation_time,'M'), 'HHmmaaa'),"HH:m
 
 
 
-   
-
-
-
-
-
 6.) Divide 24 hours into 6 equal discrete bins of time. The intervals you choose are at your discretion. For each of these groups, find the 3 most commonly occurring violations
 
       create view vw_parking_tickets1
@@ -224,10 +216,25 @@ select from_unixtime(unix_timestamp(concat(voilation_time,'M'), 'HHmmaaa'),"HH:m
 
 
 
-
-
 8.) Let’s try and find some seasonality in this data
       a.) First, divide the year into some number of seasons, and find frequencies of tickets for each season. (Hint: A quick Google search reveals the following seasons in NYC: Spring(March, April, March); Summer(June, July, August); Fall(September, October, November); Winter(December, January, February))
+      
+           create view vw_tickets_issued_seasons
+           partitioned on (Voilation_Code) 
+           as
+           select Issuer_Precinct, 
+           case 
+           when MONTH(Issue_Date) between 03 and 05 then 'spring' 
+           when MONTH(Issue_Date) between 06 and 08 then 'summer' 
+           when MONTH(Issue_Date) between 09 and 11 then 'autumn' 
+           when MONTH(Issue_Date) in (1,2,12) then 'winter' 
+           else 'unknown' 
+           end  as season,
+           Voilation_Code 
+           from parking_tickets1;
+      
+      
+      
       b.)Then, find the 3 most common violations for each of these seasons.
 
 Note: Please ensure you make necessary optimizations to your queries like selecting the appropriate table format, using partitioned/bucketed tables. Marks will be awarded for keeping the performance also in mind.
