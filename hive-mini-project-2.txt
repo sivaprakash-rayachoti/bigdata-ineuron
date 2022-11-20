@@ -219,19 +219,22 @@ select from_unixtime(unix_timestamp(concat(voilation_time,'M'), 'HHmmaaa'),"HH:m
 8.) Let’s try and find some seasonality in this data
       a.) First, divide the year into some number of seasons, and find frequencies of tickets for each season. (Hint: A quick Google search reveals the following seasons in NYC: Spring(March, April, March); Summer(June, July, August); Fall(September, October, November); Winter(December, January, February))
       
-           create view vw_tickets_issued_seasons
-           partitioned on (Voilation_Code) 
-           as
-           select Issuer_Precinct, 
-           case 
-           when MONTH(Issue_Date) between 03 and 05 then 'spring' 
-           when MONTH(Issue_Date) between 06 and 08 then 'summer' 
-           when MONTH(Issue_Date) between 09 and 11 then 'autumn' 
-           when MONTH(Issue_Date) in (1,2,12) then 'winter' 
-           else 'unknown' 
-           end  as season,
-           Voilation_Code 
-           from parking_tickets1;
+         create view vw_tickets_issued_seasons1
+         partitioned on (Voilation_Code) 
+         as
+         select Issuer_Precinct, 
+         case 
+         when col1[0] between 03 and 05 then 'spring' 
+         when col1[0] between 06 and 08 then 'summer' 
+         when col1[0] between 09 and 11 then 'autumn' 
+         when col1[0] in (01,02,12) then 'winter' 
+         else 'unknown' 
+         end  as season,
+         Voilation_Code 
+         from 
+         (select issuer_precinct,split(Issue_Date,'/') as col1,voilation_code 
+             from parking_tickets1 )abc
+
       
       
       
